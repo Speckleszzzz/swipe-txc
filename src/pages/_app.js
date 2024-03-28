@@ -1,5 +1,5 @@
+import "@/styles/globals.css";
 import '@rainbow-me/rainbowkit/styles.css';
-
 import {
   getDefaultConfig,
   RainbowKitProvider,
@@ -17,23 +17,27 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
+
+console.log(process.env.PROJECT_ID);
 const config = getDefaultConfig({
   appName: 'My RainbowKit App',
-  projectId: 'YOUR_PROJECT_ID',
+  projectId: `${process.env.PROJECT_ID}`,
   chains: [mainnet, polygon, optimism, arbitrum, base],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
 
 const queryClient = new QueryClient();
-const App = () => {
+
+
+export default function App({ Component, pageProps }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          {/* Your App */}
+          <Component {...pageProps} />; 
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
-};
+}
