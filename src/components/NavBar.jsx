@@ -1,3 +1,5 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 
 export default function NavBar() {
     return(
@@ -11,8 +13,8 @@ export default function NavBar() {
                     <p>About</p>
                     <p>Contact</p>
                 </div>
-                <div className='text-black rounded-full'>
-                    <button>Connect Wallet</button>
+                <div>
+                    <ConnectButton></ConnectButton>
                 </div>
             </div>
         </div>

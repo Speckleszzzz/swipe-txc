@@ -1,31 +1,39 @@
-import "@/styles/globals.css";
 import '@rainbow-me/rainbowkit/styles.css';
-import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
 
-const { chains, provider } = configureChains(
-  [chain.mainnet],
-  [publicProvider()]
-);
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  base,
+} from 'wagmi/chains';
+import {
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
 
-const { connectors } = getDefaultWallets({
-  appName: 'RainbowKit Demo',
+const config = getDefaultConfig({
+  appName: 'My RainbowKit App',
+  projectId: 'YOUR_PROJECT_ID',
+  chains: [mainnet, polygon, optimism, arbitrum, base],
+  ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
-const WagmiClient = createClient({
-  connectors,
-  provider
-})
 
-export default function App({ Component, pageProps }) {
-  return(
-  <WagmiProvider config={config}>
-    <QueryClientProvider client={queryClient}>
-      <RainbowKitProvider>
-        <NavBar></NavBar>
-      </RainbowKitProvider>
-    </QueryClientProvider>
-  </WagmiProvider>
-  )
-}
+const queryClient = new QueryClient();
+const App = () => {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          {/* Your App */}
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
